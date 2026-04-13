@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PediForm — Escolha o Formulário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #f7f9fc;
+  --surface:    #ffffff;
+  --border:     #e2e8f0;
+  --text-dark:  #1e293b;
+  --text-mid:   #475569;
+  --text-soft:  #94a3b8;
+  --blue:       #3b82f6;
+  --blue-soft:  #eff6ff;
+  --blue-mid:   #bfdbfe;
+  --green:      #22c55e;
+  --green-soft: #f0fdf4;
+  --green-mid:  #bbf7d0;
+  --red:        #ef4444;
+  --red-soft:   #fff1f2;
+  --red-mid:    #fecaca;
+  --warn:       #f59e0b;
+  --warn-soft:  #fffbeb;
+  --purple:     #8b5cf6;
+  --purple-soft:#f5f3ff;
+  --purple-mid: #ddd6fe;
+  --orange:     #f97316;
+  --orange-soft:#fff7ed;
+  --orange-mid: #fed7aa;
+  --teal:       #14b8a6;
+  --teal-soft:  #f0fdfa;
+  --teal-mid:   #99f6e4;
+  --pink:       #ec4899;
+  --pink-soft:  #fdf2f8;
+  --pink-mid:   #fbcfe8;
+  --radius-sm:  8px;
+  --radius:     12px;
+  --radius-lg:  16px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.06);
+  --shadow:     0 4px 6px rgba(0,0,0,.05);
+  --shadow-md:  0 10px 15px rgba(0,0,0,.05);
+  --shadow-hover: 0 8px 20px rgba(0,0,0,.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-dark);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo {
+  width: 34px; height: 34px; background: var(--blue);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px;
+}
+.header-title { font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -.3px; }
+.header-subtitle { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.header-datetime { font-size: 12px; color: var(--text-mid); text-align: right; }
+.header-datetime strong { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.header-avatar {
+  width: 32px; height: 32px; background: var(--blue-soft);
+  border: 2px solid var(--blue-mid); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+
+/* CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* HERO */
+.hero { padding: 36px 0 8px; }
+.hero h2 { font-size: 28px; font-weight: 700; color: var(--text-dark); letter-spacing: -.5px; margin-bottom: 6px; }
+.hero p { font-size: 15px; color: var(--text-mid); margin-bottom: 20px; }
+
+/* STEPS */
+.steps { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--text-soft); margin-bottom: 28px; flex-wrap: wrap; }
+.step { display: flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; background: var(--surface); border: 1.5px solid var(--border); }
+.step.ativo { background: var(--blue-soft); border-color: var(--blue-mid); color: var(--blue); font-weight: 600; }
+.step.concluido { background: var(--green-soft); border-color: var(--green-mid); color: #15803d; }
+.step-sep { color: var(--border); font-size: 16px; }
+
+/* PAT BADGE (resumo do PAT feito) */
+.pat-resumo {
+  background: var(--surface);
+  border: 1.5px solid var(--green-mid);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.pat-resumo-icone { font-size: 24px; flex-shrink: 0; }
+.pat-resumo-texto { flex: 1; }
+.pat-resumo-titulo { font-size: 14px; font-weight: 600; color: #15803d; }
+.pat-resumo-sub { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+.btn-refazer-pat {
+  background: white; border: 1.5px solid var(--border);
+  color: var(--text-mid); font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500; padding: 6px 14px;
+  border-radius: var(--radius-sm); cursor: pointer; transition: all .15s;
+}
+.btn-refazer-pat:hover { border-color: var(--blue); color: var(--blue); }
+
+/* BUSCA */
+.busca-wrapper {
+  position: relative; margin-bottom: 28px;
+}
+.busca-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; padding: 13px 16px 13px 44px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-shadow: var(--shadow-sm);
+}
+.busca-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
+.busca-icon {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px; color: var(--text-soft); pointer-events: none;
+}
+
+/* CATEGORIAS */
+.categorias { display: flex; flex-direction: column; gap: 16px; }
+
+.categoria {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s;
+}
+.categoria:hover { box-shadow: var(--shadow); }
+
+.categoria-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+  border-bottom: 1px solid transparent;
+}
+.categoria-header:hover { background: var(--bg); }
+.categoria.aberta .categoria-header { border-bottom-color: var(--border); }
+
+.cat-icone {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.cat-titulo { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+.cat-sub { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+.cat-count {
+  margin-left: auto;
+  font-size: 12px; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px;
+}
+.cat-seta {
+  font-size: 18px; color: var(--text-soft);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.categoria.aberta .cat-seta { transform: rotate(90deg); }
+
+.categoria-body {
+  display: none;
+  padding: 16px 20px;
+  animation: slideDown .2s ease;
+}
+.categoria.aberta .categoria-body { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* MOTIVOS GRID */
+.motivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.motivo-card {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.motivo-card:hover {
+  background: var(--surface);
+  border-color: var(--blue-mid);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+.motivo-card:hover .motivo-nome { color: var(--blue); }
+.motivo-card:hover .motivo-seta { opacity: 1; }
+
+.motivo-icone {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.motivo-nome { font-size: 13px; font-weight: 500; color: var(--text-dark); flex: 1; transition: color .15s; }
+.motivo-seta { font-size: 14px; color: var(--blue); opacity: 0; transition: opacity .15s; }
+
+/* MOTIVO DESTAQUE (ativas/em construção) */
+.motivo-card.disponivel { border-color: var(--blue-mid); background: var(--blue-soft); }
+.motivo-card.disponivel .motivo-nome { color: var(--blue); font-weight: 600; }
+.motivo-card.disponivel .motivo-seta { opacity: 1; }
+
+.tag-disponivel {
+  display: inline-flex; align-items: center;
+  background: var(--green); color: white;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+  letter-spacing: .3px; margin-top: 3px;
+}
+
+/* SEARCH HIGHLIGHT */
+.categoria.oculto { display: none; }
+.motivo-card.oculto { display: none; }
+
+/* STATUS BAR */
+.status-bar {
+  background: white; border-top: 1px solid var(--border);
+  padding: 8px 24px; font-size: 12px; color: var(--text-soft);
+  font-family: 'Inter', sans-serif; display: flex; gap: 20px;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  box-shadow: 0 -1px 4px rgba(0,0,0,.05);
+}
+.status-bar .ok { color: var(--green); font-weight: 500; }
+
+/* CORES POR CATEGORIA */
+.ci-geral    { background: #fef3c7; } .cc-geral  { background: var(--warn-soft);   color: #92400e; border-color: #fde68a; }
+.ci-resp     { background: var(--blue-soft); } .cc-resp   { background: var(--blue-soft);   color: var(--blue); border-color: var(--blue-mid); }
+.ci-gastro   { background: var(--green-soft); } .cc-gastro { background: var(--green-soft);  color: #15803d; border-color: var(--green-mid); }
+.ci-neuro    { background: var(--purple-soft); } .cc-neuro { background: var(--purple-soft); color: #6d28d9; border-color: var(--purple-mid); }
+.ci-alergia  { background: var(--pink-soft); } .cc-alergia{ background: var(--pink-soft);   color: #9d174d; border-color: var(--pink-mid); }
+.ci-trauma   { background: var(--orange-soft); } .cc-trauma{ background: var(--orange-soft); color: #c2410c; border-color: var(--orange-mid); }
+.ci-uro      { background: var(--teal-soft); } .cc-uro    { background: var(--teal-soft);    color: #0f766e; border-color: var(--teal-mid); }
+.ci-outros   { background: #f1f5f9; } .cc-outros  { background: #f1f5f9;           color: #475569; border-color: #cbd5e1; }
+
+.mi-geral    { background: #fef3c7; }
+.mi-resp     { background: var(--blue-soft); }
+.mi-gastro   { background: var(--green-soft); }
+.mi-neuro    { background: var(--purple-soft); }
+.mi-alergia  { background: var(--pink-soft); }
+.mi-trauma   { background: var(--orange-soft); }
+.mi-uro      { background: var(--teal-soft); }
+.mi-outros   { background: #f1f5f9; }
+
+@media (max-width: 768px) {
+  .motivos-grid { grid-template-columns: 1fr 1fr; }
+  .hero h2 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-logo">🩺</div>
+      <div>
+        <div class="header-title">PediForm</div>
+        <div class="header-subtitle">Plataforma de Avaliação Pediátrica</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-datetime">
+        <strong id="relogioHeader">—</strong>
+        <span id="patBadge" style="font-size:11px;color:var(--text-soft);">PAT: —</span>
+      </div>
+      <div class="header-avatar">👩‍⚕️</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <h2>Escolha o Formulário</h2>
+    <p>Selecione o motivo da consulta para iniciar a avaliação clínica</p>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step concluido">✓ PAT</div>
+    <div class="step-sep">›</div>
+    <div class="step ativo">② Formulário</div>
+    <div class="step-sep">›</div>
+    <div class="step" id="stepProntuario">③ Prontuário</div>
+  </div>
+
+  <!-- RESUMO PAT -->
+  <div class="pat-resumo" id="patResumo">
+    <div class="pat-resumo-icone">✅</div>
+    <div class="pat-resumo-texto">
+      <div class="pat-resumo-titulo" id="patResumoTitulo">PAT avaliado</div>
+      <div class="pat-resumo-sub" id="patResumoSub">Dados transferidos para o formulário</div>
+    </div>
+    <button class="btn-refazer-pat" onclick="window.location.href='../'">← Refazer PAT</button>
+  </div>
+
+  <!-- BUSCA -->
+  <div class="busca-wrapper">
+    <span class="busca-icon">🔍</span>
+    <input type="text" class="busca-input" id="campoBusca"
+           placeholder="Buscar motivo de consulta... ex: febre, tosse, convulsão"
+           oninput="filtrarMotivos(this.value)">
+  </div>
+
+  <!-- CATEGORIAS -->
+  <div class="categorias" id="listaCategorias">
+
+    <!-- GERAIS / INFECCIOSAS -->
+    <div class="categoria" id="cat-geral">
+      <div class="categoria-header" onclick="toggleCategoria('cat-geral')">
+        <div class="cat-icone ci-geral">🦠</div>
+        <div>
+          <div class="cat-titulo">Gerais / Infecciosas</div>
+          <div class="cat-sub">Febre · Prostração · Irritabilidade</div>
+        </div>
+        <span class="cat-count cc-geral">3 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="febre">
+            <div class="motivo-icone mi-geral">🌡️</div>
+            <div><div class="motivo-nome">Febre</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <div class="motivo-card" data-motivo="prostração">
+            <div class="motivo-icone mi-geral">😔</div>
+            <div class="motivo-nome">Prostração</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="irritabilidade">
+            <div class="motivo-icone mi-geral">😤</div>
+            <div class="motivo-nome">Irritabilidade</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESPIRATÓRIAS -->
+    <div class="categoria" id="cat-resp">
+      <div class="categoria-header" onclick="toggleCategoria('cat-resp')">
+        <div class="cat-icone ci-resp">🫁</div>
+        <div>
+          <div class="cat-titulo">Respiratórias</div>
+          <div class="cat-sub">Tosse · Dispneia · Sibilância · Coriza · Dor de garganta · Estridor</div>
+        </div>
+        <span class="cat-count cc-resp">6 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="tosse">
+            <div class="motivo-icone mi-resp">🤧</div>
+            <div><div class="motivo-nome">Tosse</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="dispneia">
+            <div class="motivo-icone mi-resp">😮‍💨</div>
+            <div><div class="motivo-nome">Dispneia</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="sibilância">
+            <div class="motivo-icone mi-resp">🌬️</div>
+            <div><div class="motivo-nome">Sibilância</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="coriza">
+            <div class="motivo-icone mi-resp">🤧</div>
+            <div><div class="motivo-nome">Coriza / Congestão</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="dor de garganta">
+            <div class="motivo-icone mi-resp">🗣️</div>
+            <div><div class="motivo-nome">Dor de garganta</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+          <a class="motivo-card disponivel" href="../ivas/" data-motivo="estridor">
+            <div class="motivo-icone mi-resp">🔊</div>
+            <div><div class="motivo-nome">Estridor</div><div class="tag-disponivel">DISPONÍVEL</div></div>
+            <span class="motivo-seta">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- GASTROINTESTINAIS -->
+    <div class="categoria" id="cat-gastro">
+      <div class="categoria-header" onclick="toggleCategoria('cat-gastro')">
+        <div class="cat-icone ci-gastro">🫄</div>
+        <div>
+          <div class="cat-titulo">Gastrointestinais</div>
+          <div class="cat-sub">Vômitos · Diarreia · Dor abdominal · Recusa alimentar</div>
+        </div>
+        <span class="cat-count cc-gastro">4 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="vômitos">
+            <div class="motivo-icone mi-gastro">🤢</div>
+            <div class="motivo-nome">Vômitos</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="diarreia">
+            <div class="motivo-icone mi-gastro">💧</div>
+            <div class="motivo-nome">Diarreia</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="dor abdominal">
+            <div class="motivo-icone mi-gastro">🤕</div>
+            <div class="motivo-nome">Dor abdominal</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="recusa alimentar">
+            <div class="motivo-icone mi-gastro">🍽️</div>
+            <div class="motivo-nome">Recusa alimentar</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEUROLÓGICAS -->
+    <div class="categoria" id="cat-neuro">
+      <div class="categoria-header" onclick="toggleCategoria('cat-neuro')">
+        <div class="cat-icone ci-neuro">🧠</div>
+        <div>
+          <div class="cat-titulo">Neurológicas</div>
+          <div class="cat-sub">Convulsão · Síncope · Cefaleia · Rebaixamento do nível de consciência</div>
+        </div>
+        <span class="cat-count cc-neuro">4 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="convulsão">
+            <div class="motivo-icone mi-neuro">⚡</div>
+            <div class="motivo-nome">Convulsão</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="síncope">
+            <div class="motivo-icone mi-neuro">😵</div>
+            <div class="motivo-nome">Síncope</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="cefaleia">
+            <div class="motivo-icone mi-neuro">🤯</div>
+            <div class="motivo-nome">Cefaleia</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="rebaixamento">
+            <div class="motivo-icone mi-neuro">😴</div>
+            <div class="motivo-nome">Rebaixamento do nível de consciência</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALÉRGICAS / DERMATOLÓGICAS -->
+    <div class="categoria" id="cat-alergia">
+      <div class="categoria-header" onclick="toggleCategoria('cat-alergia')">
+        <div class="cat-icone ci-alergia">🌿</div>
+        <div>
+          <div class="cat-titulo">Alérgicas / Dermatológicas</div>
+          <div class="cat-sub">Exantema · Urticária · Prurido · Edema / angioedema</div>
+        </div>
+        <span class="cat-count cc-alergia">4 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="exantema">
+            <div class="motivo-icone mi-alergia">🔴</div>
+            <div class="motivo-nome">Exantema</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="urticária">
+            <div class="motivo-icone mi-alergia">🐝</div>
+            <div class="motivo-nome">Urticária</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="prurido">
+            <div class="motivo-icone mi-alergia">✋</div>
+            <div class="motivo-nome">Prurido</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="edema angioedema">
+            <div class="motivo-icone mi-alergia">💊</div>
+            <div class="motivo-nome">Edema / Angioedema</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAUMA / ACIDENTES -->
+    <div class="categoria" id="cat-trauma">
+      <div class="categoria-header" onclick="toggleCategoria('cat-trauma')">
+        <div class="cat-icone ci-trauma">🩹</div>
+        <div>
+          <div class="cat-titulo">Trauma / Acidentes</div>
+          <div class="cat-sub">Quedas · Traumatismo craniano · Cortes · Queimaduras</div>
+        </div>
+        <span class="cat-count cc-trauma">4 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="quedas">
+            <div class="motivo-icone mi-trauma">🫨</div>
+            <div class="motivo-nome">Quedas</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="traumatismo craniano">
+            <div class="motivo-icone mi-trauma">🪖</div>
+            <div class="motivo-nome">Traumatismo craniano</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="cortes lacerações">
+            <div class="motivo-icone mi-trauma">🩸</div>
+            <div class="motivo-nome">Cortes / Lacerações</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="queimaduras">
+            <div class="motivo-icone mi-trauma">🔥</div>
+            <div class="motivo-nome">Queimaduras</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UROLÓGICAS -->
+    <div class="categoria" id="cat-uro">
+      <div class="categoria-header" onclick="toggleCategoria('cat-uro')">
+        <div class="cat-icone ci-uro">💧</div>
+        <div>
+          <div class="cat-titulo">Urológicas</div>
+          <div class="cat-sub">Disúria · Redução do volume urinário</div>
+        </div>
+        <span class="cat-count cc-uro">2 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="disúria dor urinar">
+            <div class="motivo-icone mi-uro">🚽</div>
+            <div class="motivo-nome">Disúria / Dor ao urinar</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="redução volume urinário oligúria">
+            <div class="motivo-icone mi-uro">⬇️</div>
+            <div class="motivo-nome">Redução do volume urinário</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTROS -->
+    <div class="categoria" id="cat-outros">
+      <div class="categoria-header" onclick="toggleCategoria('cat-outros')">
+        <div class="cat-icone ci-outros">📋</div>
+        <div>
+          <div class="cat-titulo">Outros</div>
+          <div class="cat-sub">Dor torácica · Epistaxe · Corpo estranho · Intoxicação · Picadas</div>
+        </div>
+        <span class="cat-count cc-outros">5 motivos</span>
+        <span class="cat-seta">›</span>
+      </div>
+      <div class="categoria-body">
+        <div class="motivos-grid">
+          <div class="motivo-card" data-motivo="dor torácica">
+            <div class="motivo-icone mi-outros">❤️</div>
+            <div class="motivo-nome">Dor torácica</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="epistaxe sangramento nasal">
+            <div class="motivo-icone mi-outros">🩸</div>
+            <div class="motivo-nome">Epistaxe</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="corpo estranho nariz ouvido vias aéreas">
+            <div class="motivo-icone mi-outros">🔍</div>
+            <div class="motivo-nome">Corpo estranho</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="intoxicação exógena envenenamento">
+            <div class="motivo-icone mi-outros">☠️</div>
+            <div class="motivo-nome">Intoxicação exógena</div>
+            <span class="motivo-seta">→</span>
+          </div>
+          <div class="motivo-card" data-motivo="picadas acidentes animais">
+            <div class="motivo-icone mi-outros">🐍</div>
+            <div class="motivo-nome">Picadas / Acidentes com animais</div>
+            <span class="motivo-seta">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /categorias -->
+
+</div><!-- /container -->
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span class="ok">● PediForm</span>
+  <span id="stPAT">PAT: —</span>
+  <span id="stTotal">32 motivos · 8 categorias</span>
+</div>
+
+<script>
+"use strict";
+
+/* RELÓGIO */
+function atualizarRelogio(){
+  var a=new Date();
+  document.getElementById('relogioHeader').textContent=
+    a.toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+atualizarRelogio();setInterval(atualizarRelogio,1000);
+
+/* LER DADOS DO PAT DA SESSION */
+(function lerPAT(){
+  try {
+    var raw=sessionStorage.getItem('pediform_pat');
+    if(!raw)return;
+    var d=JSON.parse(raw);
+    var cl=d.classificacao||'PAT avaliado';
+    document.getElementById('patResumoTitulo').textContent=cl;
+    document.getElementById('patResumoSub').textContent=
+      'Hora: '+(d.hora||'—')+' · Aparência: '+(d.apar||'—')+' · Respiração: '+(d.resp||'—')+' · Circulação: '+(d.circ||'—');
+    document.getElementById('patBadge').textContent='PAT: '+cl;
+    document.getElementById('stPAT').textContent='PAT: '+cl;
+    /* ícone conforme classificação */
+    var ico=document.getElementById('patResumo').querySelector('.pat-resumo-icone');
+    if(cl.includes('ESTÁVEL'))ico.textContent='✅';
+    else if(cl.includes('ATENÇÃO'))ico.textContent='⚠️';
+    else if(cl.includes('CRÍTICO'))ico.textContent='🚨';
+  } catch(e){}
+})();
+
+/* TOGGLE CATEGORIA */
+function toggleCategoria(id){
+  var cat=document.getElementById(id);
+  if(cat)cat.classList.toggle('aberta');
+}
+
+/* BUSCA */
+function filtrarMotivos(termo){
+  var t=termo.toLowerCase().trim();
+  var cats=document.querySelectorAll('.categoria');
+  cats.forEach(function(cat){
+    var motivos=cat.querySelectorAll('.motivo-card');
+    var algumVisivel=false;
+    motivos.forEach(function(m){
+      var txt=(m.dataset.motivo||'')+(m.querySelector('.motivo-nome')?m.querySelector('.motivo-nome').textContent:'');
+      var visivel=!t||txt.toLowerCase().includes(t);
+      m.classList.toggle('oculto',!visivel);
+      if(visivel)algumVisivel=true;
+    });
+    cat.classList.toggle('oculto',t&&!algumVisivel);
+    if(t&&algumVisivel)cat.classList.add('aberta');
+    else if(!t)cat.classList.remove('oculto');
+  });
+  var total=document.querySelectorAll('.motivo-card:not(.oculto)').length;
+  document.getElementById('stTotal').textContent=
+    t?total+' resultado(s) para "'+termo+'"':'32 motivos · 8 categorias';
+}
+
+/* SALVAR MOTIVO ESCOLHIDO NA SESSION antes de navegar */
+document.querySelectorAll('.motivo-card[href]').forEach(function(card){
+  card.addEventListener('click',function(){
+    var motivo=card.dataset.motivo||card.querySelector('.motivo-nome').textContent;
+    try{sessionStorage.setItem('pediform_motivo',motivo);}catch(e){}
+  });
+});
+
+/* CARDS SEM LINK — mostrar aviso em construção */
+document.querySelectorAll('.motivo-card:not([href])').forEach(function(card){
+  card.addEventListener('click',function(){
+    var nome=card.querySelector('.motivo-nome').textContent;
+    card.style.borderColor='var(--warn)';
+    card.style.background='var(--warn-soft)';
+    var aviso=document.createElement('div');
+    aviso.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1e293b;color:white;font-family:Inter,sans-serif;font-size:13px;font-weight:500;padding:10px 20px;border-radius:8px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.2);';
+    aviso.textContent='📋 Formulário "'+nome+'" em construção';
+    document.body.appendChild(aviso);
+    setTimeout(function(){
+      document.body.removeChild(aviso);
+      card.style.borderColor='';card.style.background='';
+    },2500);
+  });
+});
+</script>
+</body>
+</html>

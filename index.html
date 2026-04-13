@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PediForm — Avaliação Pediátrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #f7f9fc;
+  --surface:    #ffffff;
+  --border:     #e2e8f0;
+  --text-dark:  #1e293b;
+  --text-mid:   #475569;
+  --text-soft:  #94a3b8;
+  --blue:       #3b82f6;
+  --blue-soft:  #eff6ff;
+  --blue-mid:   #bfdbfe;
+  --green:      #22c55e;
+  --green-soft: #f0fdf4;
+  --green-mid:  #bbf7d0;
+  --red:        #ef4444;
+  --red-soft:   #fff1f2;
+  --red-mid:    #fecaca;
+  --warn:       #f59e0b;
+  --warn-soft:  #fffbeb;
+  --radius-sm:  8px;
+  --radius:     12px;
+  --radius-lg:  16px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.06);
+  --shadow:     0 4px 6px rgba(0,0,0,.05);
+  --shadow-md:  0 10px 15px rgba(0,0,0,.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-dark);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo {
+  width: 34px; height: 34px;
+  background: var(--blue);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.header-title { font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -.3px; }
+.header-subtitle { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.header-datetime { font-size: 12px; color: var(--text-mid); text-align: right; }
+.header-datetime strong { display: block; font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.header-avatar {
+  width: 32px; height: 32px;
+  background: var(--blue-soft);
+  border: 2px solid var(--blue-mid);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+
+/* CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* HERO */
+.hero {
+  padding: 36px 0 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hero h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: -.5px;
+  margin-bottom: 6px;
+}
+.hero p { font-size: 15px; color: var(--text-mid); }
+
+/* STEP INDICATOR */
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+}
+.step.ativo { background: var(--blue-soft); border-color: var(--blue-mid); color: var(--blue); font-weight: 600; }
+.step.concluido { background: var(--green-soft); border-color: var(--green-mid); color: #15803d; }
+.step-sep { color: var(--border); font-size: 16px; }
+
+/* SECTION */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.section-header {
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.si-blue   { background: var(--blue-soft); }
+.si-green  { background: var(--green-soft); }
+.si-red    { background: var(--red-soft); }
+.section-title { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+.section-subtitle { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+.section-badge {
+  margin-left: auto;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--blue-mid);
+}
+.section-body { padding: 24px; }
+
+/* HORA ROW */
+.hora-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.hora-label { font-size: 13px; font-weight: 500; color: var(--text-mid); }
+.hora-input {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--text-dark);
+  font-family: 'Inter', monospace;
+  font-size: 16px; font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  width: 110px;
+  letter-spacing: 2px;
+  text-align: center;
+  transition: border-color .15s;
+}
+.hora-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
+.btn-agora {
+  background: var(--blue-soft);
+  border: 1.5px solid var(--blue-mid);
+  color: var(--blue);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-agora:hover { background: var(--blue); color: white; border-color: var(--blue); }
+
+/* PAT LAYOUT */
+.pat-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.triangulo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  top: 80px;
+}
+.triangulo-svg {
+  width: 190px; height: 170px;
+  filter: drop-shadow(0 2px 8px rgba(59,130,246,.12));
+}
+.pat-legenda { margin-top: 12px; display: flex; gap: 14px; font-size: 11px; color: var(--text-soft); }
+.pat-legenda span { display: flex; align-items: center; gap: 5px; font-weight: 500; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* PAT COMPONENTES */
+.pat-componentes { display: flex; flex-direction: column; gap: 12px; }
+.pat-comp {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: var(--shadow-sm);
+}
+.pat-comp.normal  { border-color: var(--green); box-shadow: 0 0 0 3px rgba(34,197,94,.08); }
+.pat-comp.anormal { border-color: var(--red);   box-shadow: 0 0 0 3px rgba(239,68,68,.08); }
+.pat-comp-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+}
+.pat-comp-icone {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.pat-comp-nome { font-size: 13px; font-weight: 600; color: var(--text-dark); flex: 1; }
+.pat-comp-nome small { display: block; font-size: 11px; color: var(--text-soft); font-weight: 400; margin-top: 2px; }
+
+/* BOTÕES PAT */
+.btn-pat {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--text-mid);
+  transition: all .15s;
+  user-select: none;
+}
+.btn-pat:hover { border-color: var(--blue-mid); color: var(--blue); background: var(--blue-soft); }
+.btn-pat.normal-ativo  { background: var(--green); border-color: var(--green); color: white; font-weight: 600; }
+.btn-pat.anormal-ativo { background: var(--red);   border-color: var(--red);   color: white; font-weight: 600; }
+
+/* ACHADOS */
+.achados-container {
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: #fafbfd;
+  display: none;
+  animation: slideDown .2s ease;
+}
+.achados-titulo { font-size: 11px; color: var(--red); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
+.btn-achado {
+  display: inline-block;
+  background: white;
+  border: 1.5px solid var(--red-mid);
+  color: #b91c1c;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+  margin: 2px;
+}
+.btn-achado:hover { background: var(--red-soft); }
+.btn-achado.ativo { background: var(--red); border-color: var(--red); color: white; }
+
+/* PAT CLASSIFICAÇÃO */
+.pat-class {
+  margin-top: 20px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all .3s;
+}
+.pat-class.estavel { border-color: var(--green); }
+.pat-class.atencao { border-color: var(--warn); }
+.pat-class.critico { border-color: var(--red); animation: pulseRed 1.5s infinite; }
+@keyframes pulseRed {
+  0%,100% { box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+  50%      { box-shadow: 0 0 0 6px rgba(239,68,68,.2); }
+}
+.pat-class-hd {
+  padding: 10px 16px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase; letter-spacing: .5px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.pat-class-body { padding: 16px; display: flex; align-items: center; gap: 16px; }
+.pat-class-nivel { font-size: 20px; font-weight: 700; letter-spacing: -.3px; }
+.nivel-estavel { color: var(--green); }
+.nivel-atencao { color: var(--warn); }
+.nivel-critico { color: var(--red); }
+.nivel-pendente{ color: var(--text-soft); }
+
+/* DIRECIONAMENTO */
+#secaoDirecionamento { display: none; margin-top: 20px; animation: slideDown .3s ease; }
+
+.btn-ir-formularios {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: white;
+  border: 2px solid var(--green);
+  border-radius: var(--radius);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+.btn-ir-formularios:hover {
+  background: var(--green-soft);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+.btn-ir-label { font-size: 16px; font-weight: 700; color: #15803d; display: block; margin-bottom: 4px; }
+.btn-ir-sub { font-size: 13px; color: var(--text-mid); }
+
+/* EMERGÊNCIA */
+.emerg-wrapper {
+  background: white;
+  border: 2px solid var(--red-mid);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.emerg-header {
+  background: var(--red-soft);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--red-mid);
+}
+.emerg-header h3 { font-size: 14px; font-weight: 700; color: #b91c1c; }
+.emerg-header p  { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+.emerg-body { padding: 20px; }
+.campos-rapidos {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: 12px; font-weight: 500; color: var(--text-mid); }
+.campo input, .campo select {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color .15s;
+  width: 100%;
+}
+.campo input:focus, .campo select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
+.campo-inline { display: flex; gap: 8px; }
+.campo-inline input { flex: 1; }
+.campo-inline select { padding: 9px 8px; }
+
+.btn-gerar-emerg {
+  width: 100%;
+  background: var(--red);
+  border: none;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  padding: 13px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-gerar-emerg:hover { background: #dc2626; box-shadow: var(--shadow); }
+.btn-gerar-emerg:disabled { opacity: .5; cursor: not-allowed; }
+
+/* RESULTADO */
+.resultado-box {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.resultado-hd {
+  background: var(--bg);
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.resultado-hd span { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.btn-copiar {
+  background: white;
+  border: 1.5px solid var(--border);
+  color: var(--text-mid);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-copiar:hover, .btn-copiar.copiado { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+.resultado-texto {
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; line-height: 1.8;
+  color: var(--text-dark);
+  white-space: pre-wrap;
+  max-height: 480px;
+  overflow-y: auto;
+}
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.btn-continuar-form {
+  display: block; width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-mid);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 11px; border-radius: var(--radius-sm);
+  cursor: pointer; text-align: center;
+  transition: all .2s; margin-top: 10px;
+}
+.btn-continuar-form:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+/* STATUS BAR */
+.status-bar {
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 8px 24px;
+  font-size: 12px; color: var(--text-soft);
+  font-family: 'Inter', sans-serif;
+  display: flex; gap: 20px;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  box-shadow: 0 -1px 4px rgba(0,0,0,.05);
+}
+.status-bar .ok   { color: var(--green); font-weight: 500; }
+.status-bar .warn { color: var(--warn);  font-weight: 500; }
+.status-bar .crit { color: var(--red);   font-weight: 500; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .pat-layout { grid-template-columns: 1fr; }
+  .campos-rapidos { grid-template-columns: 1fr 1fr; }
+  .hero h2 { font-size: 22px; }
+  .steps { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-logo">🩺</div>
+      <div>
+        <div class="header-title">PediForm</div>
+        <div class="header-subtitle">Plataforma de Avaliação Pediátrica</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-datetime">
+        <strong id="relogioHeader">—</strong>
+        PAT: <span id="patStatusHeader" style="color:var(--text-soft);font-weight:500;">—</span>
+      </div>
+      <div class="header-avatar">👩‍⚕️</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <h2>Triângulo de Avaliação Pediátrica</h2>
+      <p>Avaliação inicial obrigatória · Preencha os 3 vértices para prosseguir</p>
+    </div>
+    <div class="steps">
+      <div class="step ativo">① PAT</div>
+      <div class="step-sep">›</div>
+      <div class="step" id="stepFormularios">② Formulário</div>
+      <div class="step-sep">›</div>
+      <div class="step" id="stepProntuario">③ Prontuário</div>
+    </div>
+  </div>
+
+  <!-- PAT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon si-blue">△</div>
+      <div>
+        <div class="section-title">Triângulo de Avaliação Pediátrica — PAT</div>
+        <div class="section-subtitle">Avaliação rápida e sistemática do estado clínico</div>
+      </div>
+      <div class="section-badge">Etapa 01</div>
+    </div>
+    <div class="section-body">
+
+      <!-- HORA -->
+      <div class="hora-row">
+        <span class="hora-label">Hora da avaliação:</span>
+        <input type="text" class="hora-input" id="horaAvaliacao" placeholder="HH:MM" maxlength="5" oninput="mascaraHora(this)">
+        <button class="btn-agora" onclick="preencherAgora()">Agora</button>
+        <span style="font-size:12px;color:var(--text-soft);">Registre o horário de início da avaliação clínica</span>
+      </div>
+
+      <!-- PAT LAYOUT -->
+      <div class="pat-layout">
+
+        <!-- TRIÂNGULO SVG -->
+        <div class="triangulo-wrapper">
+          <svg class="triangulo-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gNeutro" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#dbeafe"/><stop offset="100%" style="stop-color:#eff6ff"/>
+              </linearGradient>
+              <linearGradient id="gNormal" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#bbf7d0"/><stop offset="100%" style="stop-color:#f0fdf4"/>
+              </linearGradient>
+              <linearGradient id="gAnormal" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#fecaca"/><stop offset="100%" style="stop-color:#fff1f2"/>
+              </linearGradient>
+            </defs>
+            <polygon points="100,8 192,168 8,168" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+            <polygon id="triApar" points="100,8 8,168 54,168 100,88" fill="url(#gNeutro)" stroke="#93c5fd" stroke-width="1.5" opacity=".95"/>
+            <polygon id="triResp" points="100,8 192,168 146,168 100,88" fill="url(#gNeutro)" stroke="#93c5fd" stroke-width="1.5" opacity=".95"/>
+            <polygon id="triCirc" points="54,168 100,88 146,168" fill="url(#gNeutro)" stroke="#93c5fd" stroke-width="1.5" opacity=".95"/>
+            <text x="36" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#64748b" transform="rotate(-60,36,130)">APARÊNCIA</text>
+            <text x="164" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#64748b" transform="rotate(60,164,130)">RESPIRAÇÃO</text>
+            <text x="100" y="162" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#64748b">CIRCULAÇÃO</text>
+            <circle cx="100" cy="88" r="5" fill="#93c5fd" id="pontoCentral"/>
+          </svg>
+          <div class="pat-legenda">
+            <span><div class="leg-dot" style="background:var(--green);"></div>Normal</span>
+            <span><div class="leg-dot" style="background:var(--red);"></div>Anormal</span>
+          </div>
+        </div>
+
+        <!-- COMPONENTES -->
+        <div class="pat-componentes">
+
+          <!-- APARÊNCIA -->
+          <div class="pat-comp" id="compApar">
+            <div class="pat-comp-header">
+              <div class="pat-comp-icone si-blue">🧠</div>
+              <div class="pat-comp-nome">Aparência<small>Tônus · Interação · Consolabilidade · Olhar · Vocalização</small></div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn-pat" id="btnAparN" onclick="selecionarPAT('apar','normal')">Normal</button>
+                <button class="btn-pat" id="btnAparA" onclick="selecionarPAT('apar','anormal')">Anormal</button>
+              </div>
+            </div>
+            <div class="achados-container" id="achApar">
+              <div class="achados-titulo">Achados presentes:</div>
+              <div>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Tônus muscular diminuído ou flácido</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Não interage com pais ou ambiente</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Inconsolável ou não responde a consolo</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Olhar vago sem fixação visual</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Choro fraco, gemido ou ausência de vocalização</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RESPIRAÇÃO -->
+          <div class="pat-comp" id="compResp">
+            <div class="pat-comp-header">
+              <div class="pat-comp-icone si-blue">🫁</div>
+              <div class="pat-comp-nome">Trabalho Respiratório<small>Estridor · Gemência · Retrações · Posicionamento · Paradoxo</small></div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn-pat" id="btnRespN" onclick="selecionarPAT('resp','normal')">Normal</button>
+                <button class="btn-pat" id="btnRespA" onclick="selecionarPAT('resp','anormal')">Anormal</button>
+              </div>
+            </div>
+            <div class="achados-container" id="achResp">
+              <div class="achados-titulo">Achados presentes:</div>
+              <div>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Estridor</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Gemência ou grunting</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Sibilância audível sem estetoscópio</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Retrações supraclaviculares</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Retrações intercostais</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Retrações subcostais</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Batimento de asa nasal</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Posição de tripé ou recusa em deitar</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Respiração paradoxal</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CIRCULAÇÃO -->
+          <div class="pat-comp" id="compCirc">
+            <div class="pat-comp-header">
+              <div class="pat-comp-icone si-red">❤️</div>
+              <div class="pat-comp-nome">Circulação à Pele<small>Palidez · Moteamento · Cianose · TEC · Extremidades</small></div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn-pat" id="btnCircN" onclick="selecionarPAT('circ','normal')">Normal</button>
+                <button class="btn-pat" id="btnCircA" onclick="selecionarPAT('circ','anormal')">Anormal</button>
+              </div>
+            </div>
+            <div class="achados-container" id="achCirc">
+              <div class="achados-titulo">Achados presentes:</div>
+              <div>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Palidez generalizada</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Moteamento ou livedo reticular</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Cianose</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Tempo de enchimento capilar maior que 2 segundos</button>
+                <button class="btn-achado" onclick="this.classList.toggle('ativo')">Extremidades frias</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CLASSIFICAÇÃO -->
+          <div class="pat-class" id="patClass">
+            <div class="pat-class-hd">Classificação do PAT</div>
+            <div class="pat-class-body">
+              <div style="font-size:28px;" id="patIcone">⏳</div>
+              <div style="flex:1;">
+                <div class="pat-class-nivel nivel-pendente" id="patNivel">Aguardando avaliação dos 3 componentes</div>
+                <div style="font-size:12px;color:var(--text-soft);margin-top:4px;" id="patDescr">Avalie os três vértices para liberar o próximo passo.</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:28px;font-weight:700;color:var(--text-soft);" id="patPontos">—</div>
+                <div style="font-size:11px;color:var(--text-soft);">anormais</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DIRECIONAMENTO -->
+      <div id="secaoDirecionamento">
+
+        <!-- PAT ESTÁVEL -->
+        <div id="direcEstavel" style="display:none;">
+          <button class="btn-ir-formularios" onclick="irParaFormularios()">
+            <div>
+              <span class="btn-ir-label">✓ PAT Normal — Escolher Formulário</span>
+              <span class="btn-ir-sub">Criança estável · Selecione o motivo da consulta</span>
+            </div>
+            <span style="font-size:22px;color:var(--green);">→</span>
+          </button>
+        </div>
+
+        <!-- PAT ALTERADO -->
+        <div id="direcAlterado" style="display:none;">
+          <div class="emerg-wrapper">
+            <div class="emerg-header">
+              <span style="font-size:22px;">🚨</span>
+              <div>
+                <h3>PAT Alterado — Conduta de Emergência</h3>
+                <p>Preencha os dados e gere a conduta imediata. Formulário completo disponível após.</p>
+              </div>
+            </div>
+            <div class="emerg-body">
+              <div class="campos-rapidos">
+                <div class="campo"><label>Nome do paciente</label><input type="text" id="emergNome" placeholder="Nome completo..."></div>
+                <div class="campo"><label>Idade</label><div class="campo-inline"><input type="number" id="emergIdadeNum" placeholder="Ex: 8" min="0"><select id="emergIdadeUnid"><option value="">—</option><option>dias</option><option>meses</option><option>anos</option></select></div></div>
+                <div class="campo"><label>Peso (kg)</label><input type="number" id="emergPeso" placeholder="Ex: 14.5" step=".1" min="0"></div>
+              </div>
+              <button class="btn-gerar-emerg" id="btnGerarEmerg" onclick="gerarEmergencia()">🚨 Gerar Conduta de Emergência</button>
+              <div id="resultadoEmerg" style="display:none;margin-top:14px;">
+                <div class="resultado-box">
+                  <div class="resultado-hd"><span>Conduta de Emergência</span><button class="btn-copiar" onclick="copiar('textoEmerg',this)">Copiar</button></div>
+                  <div class="resultado-texto" id="textoEmerg"></div>
+                </div>
+                <button class="btn-continuar-form" onclick="irParaFormularios()">→ Continuar para seleção de formulário</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span class="ok">● PediForm</span>
+  <span id="stPAT">PAT: —</span>
+  <span id="stHora">Hora: —</span>
+</div>
+
+<script>
+"use strict";
+var API_URL = 'https://pediform.onrender.com/api/claude';
+
+/* RELÓGIO */
+function atualizarRelogio(){
+  var a=new Date();
+  document.getElementById('relogioHeader').textContent=
+    a.toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+atualizarRelogio();setInterval(atualizarRelogio,1000);
+
+/* HORA */
+function mascaraHora(i){var v=i.value.replace(/\D/g,'');if(v.length>2)v=v.slice(0,2)+':'+v.slice(2,4);i.value=v;document.getElementById('stHora').textContent='Hora: '+v;}
+function preencherAgora(){
+  var a=new Date();
+  var v=String(a.getHours()).padStart(2,'0')+':'+String(a.getMinutes()).padStart(2,'0');
+  document.getElementById('horaAvaliacao').value=v;
+  document.getElementById('stHora').textContent='Hora: '+v;
+}
+
+/* PAT */
+var estadoPAT={apar:null,resp:null,circ:null};
+var mapaPAT={
+  apar:{N:'btnAparN',A:'btnAparA',ach:'achApar',svg:'triApar',card:'compApar'},
+  resp:{N:'btnRespN',A:'btnRespA',ach:'achResp',svg:'triResp',card:'compResp'},
+  circ:{N:'btnCircN',A:'btnCircA',ach:'achCirc',svg:'triCirc',card:'compCirc'}
+};
+
+function selecionarPAT(comp,val){
+  estadoPAT[comp]=val;
+  var m=mapaPAT[comp];
+  var bN=document.getElementById(m.N),bA=document.getElementById(m.A),
+      ach=document.getElementById(m.ach),face=document.getElementById(m.svg),
+      card=document.getElementById(m.card);
+  bN.classList.remove('normal-ativo','anormal-ativo');
+  bA.classList.remove('normal-ativo','anormal-ativo');
+  card.classList.remove('normal','anormal');
+  if(val==='normal'){
+    bN.classList.add('normal-ativo');card.classList.add('normal');
+    ach.style.display='none';
+    face.setAttribute('fill','url(#gNormal)');face.setAttribute('stroke','#86efac');
+  } else {
+    bA.classList.add('anormal-ativo');card.classList.add('anormal');
+    ach.style.display='block';
+    face.setAttribute('fill','url(#gAnormal)');face.setAttribute('stroke','#fca5a5');
+  }
+  calcularPAT();
+}
+
+function calcularPAT(){
+  var an=0,av=0;
+  ['apar','resp','circ'].forEach(function(c){if(estadoPAT[c]!==null)av++;if(estadoPAT[c]==='anormal')an++;});
+  var cls=document.getElementById('patClass'),
+      ico=document.getElementById('patIcone'),
+      niv=document.getElementById('patNivel'),
+      dsc=document.getElementById('patDescr'),
+      pts=document.getElementById('patPontos'),
+      ctr=document.getElementById('pontoCentral'),
+      sd=document.getElementById('secaoDirecionamento'),
+      de=document.getElementById('direcEstavel'),
+      da=document.getElementById('direcAlterado');
+
+  cls.classList.remove('estavel','atencao','critico');
+  sd.style.display='none';de.style.display='none';da.style.display='none';
+
+  if(av<3){
+    ico.textContent='⏳';niv.className='pat-class-nivel nivel-pendente';
+    niv.textContent='Avaliação incompleta ('+av+'/3)';
+    dsc.textContent='Avalie os três componentes para liberar o próximo passo.';
+    pts.textContent='—';pts.style.color='var(--text-soft)';
+    ctr.setAttribute('fill','#93c5fd');
+    document.getElementById('stPAT').textContent='PAT: incompleto';
+    document.getElementById('stPAT').className='';
+    document.getElementById('patStatusHeader').textContent='—';
+    document.getElementById('patStatusHeader').style.color='var(--text-soft)';
+    return;
+  }
+
+  pts.textContent=an;
+  sd.style.display='block';
+  setTimeout(function(){sd.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
+
+  if(an===0){
+    cls.classList.add('estavel');ico.textContent='✅';
+    niv.className='pat-class-nivel nivel-estavel';niv.textContent='ESTÁVEL';
+    dsc.textContent='Todos os componentes normais. Paciente sem comprometimento imediato.';
+    pts.style.color='var(--green)';ctr.setAttribute('fill','#4ade80');de.style.display='block';
+    document.getElementById('stPAT').textContent='PAT: ESTÁVEL';
+    document.getElementById('stPAT').className='ok';
+    document.getElementById('patStatusHeader').textContent='ESTÁVEL';
+    document.getElementById('patStatusHeader').style.color='var(--green)';
+    document.getElementById('stepFormularios').classList.add('ativo');
+  } else if(an===1){
+    cls.classList.add('atencao');ico.textContent='⚠️';
+    niv.className='pat-class-nivel nivel-atencao';niv.textContent='ATENÇÃO';
+    dsc.textContent='Um componente anormal. Avaliação prioritária.';
+    pts.style.color='var(--warn)';ctr.setAttribute('fill','#fbbf24');da.style.display='block';
+    document.getElementById('stPAT').textContent='PAT: ATENÇÃO';
+    document.getElementById('stPAT').className='warn';
+    document.getElementById('patStatusHeader').textContent='ATENÇÃO';
+    document.getElementById('patStatusHeader').style.color='var(--warn)';
+  } else {
+    cls.classList.add('critico');ico.textContent='🚨';
+    niv.className='pat-class-nivel nivel-critico';niv.textContent='CRÍTICO';
+    dsc.textContent=an===3?'Três componentes anormais. Parada iminente. Intervenção imediata.':'Dois componentes anormais. Risco elevado. Estabilização imediata.';
+    pts.style.color='var(--red)';ctr.setAttribute('fill','#f87171');da.style.display='block';
+    document.getElementById('stPAT').textContent='PAT: CRÍTICO';
+    document.getElementById('stPAT').className='crit';
+    document.getElementById('patStatusHeader').textContent='CRÍTICO';
+    document.getElementById('patStatusHeader').style.color='var(--red)';
+  }
+}
+
+/* SALVAR DADOS DO PAT NA SESSION (para transferir ao formulário) */
+function salvarDadosPAT(){
+  var dados={
+    hora: document.getElementById('horaAvaliacao').value,
+    apar: estadoPAT.apar,
+    resp: estadoPAT.resp,
+    circ: estadoPAT.circ,
+    achadosApar: Array.from(document.querySelectorAll('#achApar .btn-achado.ativo')).map(function(b){return b.textContent.trim();}),
+    achadosResp: Array.from(document.querySelectorAll('#achResp .btn-achado.ativo')).map(function(b){return b.textContent.trim();}),
+    achadosCirc: Array.from(document.querySelectorAll('#achCirc .btn-achado.ativo')).map(function(b){return b.textContent.trim();}),
+    classificacao: document.getElementById('patNivel').textContent
+  };
+  try { sessionStorage.setItem('pediform_pat', JSON.stringify(dados)); } catch(e){}
+}
+
+/* IR PARA SELEÇÃO DE FORMULÁRIOS */
+function irParaFormularios(){
+  salvarDadosPAT();
+  window.location.href='formularios/';
+}
+
+/* EMERGÊNCIA */
+function gerarEmergencia(){
+  var nome=document.getElementById('emergNome').value.trim()||'Não informado';
+  var idN=document.getElementById('emergIdadeNum').value;
+  var idU=document.getElementById('emergIdadeUnid').value;
+  var pes=document.getElementById('emergPeso').value;
+  var mapAch={apar:'achApar',resp:'achResp',circ:'achCirc'};
+  var mapRot={apar:'APARÊNCIA',resp:'TRABALHO RESPIRATÓRIO',circ:'CIRCULAÇÃO À PELE'};
+  var desc='',an=0;
+  ['apar','resp','circ'].forEach(function(c){
+    if(estadoPAT[c]==='anormal'){
+      an++;
+      var bts=document.querySelectorAll('#'+mapAch[c]+' .btn-achado.ativo');
+      var lista=[];bts.forEach(function(b){lista.push(b.textContent.trim());});
+      desc+=mapRot[c]+' ANORMAL'+(lista.length>0?': '+lista.join(', '):'')+'. ';
+    } else desc+=mapRot[c]+': NORMAL. ';
+  });
+  var cl=an>=2?'CRÍTICO':'ATENÇÃO';
+  var prompt='PACIENTE: '+nome+'. IDADE: '+(idN&&idU?idN+' '+idU:'Não informada')+'. PESO: '+(pes?pes+' kg':'Não informado')+
+    '. PAT ALTERADO. CLASSIFICAÇÃO: '+cl+' ('+an+' VÉRTICE(S)). ACHADOS: '+desc+
+    'VOCÊ É UM MÉDICO PERITO EM EMERGÊNCIA PEDIÁTRICA. COM BASE NO TRIÂNGULO DE AVALIAÇÃO PEDIÁTRICA ALTERADO DESCRITO ACIMA GERE EM LETRAS MAIÚSCULAS SEM SIGLAS SEM METADISCURSO: '+
+    'CLASSIFICAÇÃO DE GRAVIDADE. HIPÓTESES DIAGNÓSTICAS MAIS PROVÁVEIS COM CID-11. CONDUTA IMEDIATA EM ORDEM DE PRIORIDADE EM PRIMEIRA PESSOA DO SINGULAR. '+
+    'EXAMES A SOLICITAR COM JUSTIFICATIVA BREVE. CRITÉRIOS DE INTERNAÇÃO OU UTI SE APLICÁVEL. SINAIS DE ALARME PARA MONITORAR.';
+  var divR=document.getElementById('resultadoEmerg'),divT=document.getElementById('textoEmerg');
+  divR.style.display='block';
+  divT.innerHTML='<div style="padding:20px;text-align:center;"><span class="spinner"></span> Processando...</div>';
+  var btn=document.getElementById('btnGerarEmerg');btn.disabled=true;btn.textContent='Gerando...';
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var txt='';
+    if(data.content&&Array.isArray(data.content))data.content.forEach(function(b){if(b.type==='text')txt+=b.text;});
+    divT.textContent=txt||'Erro: resposta vazia.';
+    btn.disabled=false;btn.textContent='🚨 Gerar Conduta de Emergência';
+    divR.scrollIntoView({behavior:'smooth',block:'start'});
+  })
+  .catch(function(e){divT.textContent='Erro: '+e.message;btn.disabled=false;btn.textContent='🚨 Gerar Conduta de Emergência';});
+}
+
+function copiar(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(function(){
+    btn.textContent='Copiado ✓';btn.classList.add('copiado');
+    setTimeout(function(){btn.textContent='Copiar';btn.classList.remove('copiado');},2000);
+  });
+}
+</script>
+</body>
+</html>
